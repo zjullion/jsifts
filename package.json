@@ -27,7 +27,7 @@
   },
   "scripts": {
     "lint": "eslint src",
-    "pretest": "yarn lint",
+    "pretest": "yarn lint && yarn tsc",
     "test": "jest --coverage"
   },
   "jest": {
