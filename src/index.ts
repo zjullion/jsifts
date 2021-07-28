@@ -1,1 +1,1 @@
-export { UniqueCharacterSetIndex } from './UniqueCharacterSetIndex'
+export * as UniqueCharacterSetIndex from './UniqueCharacterSetIndex'

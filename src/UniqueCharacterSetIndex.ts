@@ -1,6 +1,6 @@
-export class UniqueCharacterSetIndex<T> {
+export default class UniqueCharacterSetIndex<T> {
   private charSetIndex: { [index: string]: T[] }
-  private indexableAttribute: keyof T
+  private indexableAttribute: string & keyof T
   private maxCharSetLength: number
 
   /**
@@ -10,7 +10,7 @@ export class UniqueCharacterSetIndex<T> {
    * @param indexableAttribute - the string attribute to construct the index on
    * @param maxCharSetLength - the maximum length of subsets (index keys) to construct and store
    */
-  public constructor(indexableAttribute: keyof T, maxCharSetLength: number) {
+  public constructor(indexableAttribute: string & keyof T, maxCharSetLength: number) {
     this.charSetIndex = {}
     this.indexableAttribute = indexableAttribute
     this.maxCharSetLength = maxCharSetLength
@@ -25,7 +25,7 @@ export class UniqueCharacterSetIndex<T> {
     this.checkForIndexableAttribute(values)
 
     for (const currentValue of values) {
-      const word: string = currentValue[this.indexableAttribute] as any // eslint-disable-line @typescript-eslint/no-explicit-any
+      const word: string = currentValue[this.indexableAttribute] as unknown as string
       const characterSets: string[] = this.generateUniqueCharacterSets(word)
 
       for (const charSet of characterSets) {
