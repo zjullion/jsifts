@@ -25,7 +25,7 @@ export default class UniqueCharacterSetIndex<T> {
     this.checkForIndexableAttribute(values)
 
     for (const currentValue of values) {
-      const word: string = currentValue[this.indexableAttribute] as unknown as string
+      const word = currentValue[this.indexableAttribute] as unknown as string
       const characterSets: string[] = this.generateUniqueCharacterSets(word)
 
       for (const charSet of characterSets) {
@@ -44,9 +44,9 @@ export default class UniqueCharacterSetIndex<T> {
    * are sorted in descending order by number of characters in common.
    * @param searchValue - the value to search for
    * @param minSharedCharacters - the minimum number of characters that `value[indexableAttribute]`
-   * and `searchValue` must share for a result to be returned (defaults to 1)
+   * and `searchValue` must share for a result to be returned
    */
-  public findValues(searchValue: string, minSharedCharacters = 1): { sharedCharacters: string; value: T }[] {
+  public findValues(searchValue: string, minSharedCharacters: number): { sharedCharacters: string; value: T }[] {
     const charSetsToSearch: string[] = this.generateUniqueCharacterSets(searchValue)
     charSetsToSearch.sort((charSetA: string, charSetB: string) => charSetB.length - charSetA.length)
 
@@ -61,7 +61,7 @@ export default class UniqueCharacterSetIndex<T> {
 
       if (valuesArray) {
         for (const value of valuesArray) {
-          const indexValue: string = value[this.indexableAttribute] as any // eslint-disable-line @typescript-eslint/no-explicit-any
+          const indexValue = value[this.indexableAttribute] as unknown as string
 
           if (!valuesFound[indexValue]) {
             valuesFound[indexValue] = value
