@@ -1,3 +1,5 @@
+import generateUniqueCharacterSets from './generateUniqueCharacterSets'
+
 export default class UniqueCharacterSetIndex<T> {
   private charSetIndex: { [index: string]: T[] }
   private indexableAttribute: string & keyof T
@@ -26,7 +28,7 @@ export default class UniqueCharacterSetIndex<T> {
 
     for (const currentValue of values) {
       const word = currentValue[this.indexableAttribute] as unknown as string
-      const characterSets: string[] = this.generateUniqueCharacterSets(word)
+      const characterSets: string[] = generateUniqueCharacterSets(word, this.maxCharSetLength)
 
       for (const charSet of characterSets) {
         if (!this.charSetIndex[charSet]) {
@@ -47,7 +49,7 @@ export default class UniqueCharacterSetIndex<T> {
    * and `searchValue` must share for a result to be returned
    */
   public findValues(searchValue: string, minSharedCharacters: number): { sharedCharacters: string; value: T }[] {
-    const charSetsToSearch: string[] = this.generateUniqueCharacterSets(searchValue)
+    const charSetsToSearch: string[] = generateUniqueCharacterSets(searchValue, this.maxCharSetLength)
     charSetsToSearch.sort((charSetA: string, charSetB: string) => charSetB.length - charSetA.length)
 
     const valuesFound: { [index: string]: T } = {}
@@ -80,26 +82,5 @@ export default class UniqueCharacterSetIndex<T> {
         throw new TypeError(`One or more values do not have a string attribute ${this.indexableAttribute}.`)
       }
     }
-  }
-
-  // Modified from https://codereview.stackexchange.com/a/7025
-  private generateUniqueCharacterSets(inputString: string): string[] {
-    const charSetsArray: string[] = []
-    const uniquecharSets: { [index: string]: boolean } = {}
-
-    const recursiveSubstringFinder = (active: string, rest: string): void => {
-      if (active && !rest) {
-        if (active.length <= this.maxCharSetLength && !uniquecharSets[active]) {
-          charSetsArray.push(active)
-          uniquecharSets[active] = true
-        }
-      } else if (active || rest) {
-        recursiveSubstringFinder(active + rest[0], rest.slice(1))
-        recursiveSubstringFinder(active, rest.slice(1))
-      }
-    }
-
-    recursiveSubstringFinder('', inputString.split('').sort().join(''))
-    return charSetsArray
   }
 }
