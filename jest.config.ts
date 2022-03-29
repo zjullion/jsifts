@@ -11,5 +11,5 @@ export default {
     },
   },
   preset: 'ts-jest',
-  testMatch: ['**/src/**.test.ts'],
+  testMatch: ['**/src/**/**.test.ts'],
 }
