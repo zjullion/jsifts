@@ -1,4 +1,4 @@
-import generateUniqueCharacterSets from './generateUniqueCharacterSets'
+import generateUniqueCharacterSubsets from './utils/generateUniqueCharacterSubsets'
 
 export default class UniqueCharacterSetIndex<T> {
   private charSetIndex: { [index: string]: T[] }
@@ -28,7 +28,7 @@ export default class UniqueCharacterSetIndex<T> {
 
     for (const currentValue of values) {
       const word = currentValue[this.indexableAttribute] as unknown as string
-      const characterSets: string[] = generateUniqueCharacterSets(word, this.maxCharSetLength)
+      const characterSets: string[] = generateUniqueCharacterSubsets(word, this.maxCharSetLength)
 
       for (const charSet of characterSets) {
         if (!this.charSetIndex[charSet]) {
@@ -49,7 +49,7 @@ export default class UniqueCharacterSetIndex<T> {
    * and `searchValue` must share for a result to be returned
    */
   public findValues(searchValue: string, minSharedCharacters: number): { sharedCharacters: string; value: T }[] {
-    const charSetsToSearch: string[] = generateUniqueCharacterSets(searchValue, this.maxCharSetLength)
+    const charSetsToSearch: string[] = generateUniqueCharacterSubsets(searchValue, this.maxCharSetLength)
     charSetsToSearch.sort((charSetA: string, charSetB: string) => charSetB.length - charSetA.length)
 
     const valuesFound: { [index: string]: T } = {}

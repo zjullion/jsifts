@@ -8,7 +8,19 @@ function countOccurences(char: string, stringToSearch: string): number {
   return occurences
 }
 
-export default function generateUniqueCharacterSets(inputString: string, maxSetLength: number): string[] {
+/**
+ * Generates all unique subsets of characters (up to a length of `maxSetLength`) for an `inputString`. For example, the
+ * unique character sets up to a length of 3 for the string "test" are "e", "s", "t", "es", "et", "st", "tt", "est",
+ * "ett", and "stt".
+ * @param inputString The string to generate the subsets from.
+ * @param maxSetLength The maximum length of unique character subset to generate.
+ * @returns An array that contains the generated subsets.
+ */
+export default function generateUniqueCharacterSubsets(inputString: string, maxSetLength: number): string[] {
+  if (maxSetLength < 1) {
+    return []
+  }
+
   const maxCharOccurences: { [char: string]: number } = {}
   for (const char of inputString) {
     if (maxCharOccurences[char]) {
